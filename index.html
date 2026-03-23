@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>חידון הארי פוטר</title>
 
 <style>
@@ -67,56 +66,45 @@ position:relative;
 .correct{background:#00ff88!important;color:black}
 .wrong{background:#ff5252!important}
 
-.mark{
-position:absolute;
-left:15px;
-top:50%;
-transform:translateY(-50%);
-font-size:20px;
-}
-
 .progress{height:10px;background:rgba(255,255,255,0.2);border-radius:10px;margin-bottom:20px;}
 .bar{height:100%;background:#00c6ff;border-radius:10px;}
 
 .hidden{display:none}
 
-/* ===== עיצוב סיום מקורי שלך ===== */
-#end {
-    text-align: center;
-    padding: 30px 20px;
-    max-width: 400px;
-    margin: 40px auto;
-    background: #1e1e1e;
-    color: #fff;
-    border-radius: 16px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-    font-family: Arial, sans-serif;
-}
-
-#score {
-    font-size: 36px;
-    font-weight: bold;
-    margin: 15px 0;
-}
-
-#detail {
-    font-size: 15px;
-    margin-bottom: 10px;
-    opacity: 0.9;
-}
-
-#msg {
-    font-size: 20px;
-    margin-bottom: 20px;
-}
-
-.credit{
-position:fixed;
-bottom:10px;
-width:100%;
+/* סיום מקורי */
+#end{
 text-align:center;
-font-size:20px;
+padding:30px 20px;
+max-width:400px;
+margin:40px auto;
+background:#1e1e1e;
+border-radius:16px;
+box-shadow:0 8px 25px rgba(0,0,0,0.4);
+}
+
+#score{font-size:36px;font-weight:bold;margin:15px 0;}
+#detail{font-size:15px;margin-bottom:10px;}
+#msg{font-size:20px;margin-bottom:20px;}
+
+/* טבלה */
+.history{
+margin-top:20px;
+background:#111;
+padding:10px;
+border-radius:10px;
+border:1px solid #444;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+padding:8px;
+border-bottom:1px solid #333;
+}
+
+.row.header{
 font-weight:bold;
+border-bottom:2px solid #555;
 }
 
 #timerSmall{
@@ -137,10 +125,10 @@ border-radius:10px;
 
 <div id="timerSmall">00:00</div>
 
-<div class="container" id="box">
+<div class="container">
 
 <div id="start">
-<h1>הארי פוטר חידון כישופים נדירים #1</h1>
+<h1>חידון כישופים נדירים ⚡</h1>
 <br><br>
 <button class="start-btn" onclick="startQuiz()">התחל חידון</button>
 </div>
@@ -163,15 +151,13 @@ border-radius:10px;
 
 <input id="username" placeholder="הכנס את שמך">
 <br>
-<button onclick="shareScore()">שתף עם חברים</button>
+<button onclick="shareScore()">שתף</button>
 <button onclick="location.reload()">שחק שוב</button>
 
-<div id="historyBox"></div>
+<div id="historyBox" class="history"></div>
 </div>
 
 </div>
-
-<div class="credit">נוצר על ידי אריאל מאירי</div>
 
 <script>
 
@@ -197,6 +183,7 @@ let t=`${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`
 document.getElementById("timerSmall").innerText=t
 }
 
+/* 20 שאלות */
 const questions=[
 {q:"איזה כישוף יוצר להבה כחולה קפואה?",a:["אש קרחונית (Bluebell Flames)","אינצנדיו (Incendio)","לאקומורטיס (Locomotor Mortis)","אקוומנטי (Aguamenti)"],c:0},
 
@@ -242,8 +229,8 @@ const questions=[
 function showQ(){
 let q=questions[i]
 document.getElementById("q").innerText=q.q
-document.getElementById("qnum").innerText=`שאלה ${i+1}/${questions.length}`
-document.getElementById("bar").style.width=(i/questions.length*100)+"%"
+document.getElementById("qnum").innerText=`שאלה ${i+1}/20`
+document.getElementById("bar").style.width=(i/20*100)+"%"
 
 let html=""
 q.a.forEach((t,index)=>{
@@ -261,7 +248,7 @@ if(n==correct) el.classList.add("correct")
 else el.classList.add("wrong")
 })
 
-if(index==correct)score+=20
+if(index==correct)score+=5
 else wrong++
 
 setTimeout(next,800)
@@ -281,22 +268,25 @@ clearInterval(timerInterval)
 document.getElementById("quiz").classList.add("hidden")
 document.getElementById("end").classList.remove("hidden")
 
-let time=document.getElementById("timerSmall").innerText
+let time=document.getElementById("timerSmall").innerText || "00:00"
 
-// שליחה
 let parts=time.split(":")
-let total=parseInt(parts[0])*60+parseInt(parts[1])
+let minutes=parseInt(parts[0])||0
+let seconds=parseInt(parts[1])||0
+let total=minutes*60+seconds
 
 if(total>=15){
 document.getElementById("scoreInput").value=score
 document.getElementById("timeInput").value=time
 document.getElementById("nameInput").value=document.getElementById("username").value||"לא צוין"
+
+setTimeout(()=>{
 document.getElementById("formSubmit").submit()
+},100)
 }
 
-// תוצאות
 document.getElementById("score").innerText=`🏆 ${score}/100`
-document.getElementById("detail").innerText=`✔ ${score/20} | ❌ ${wrong} | ⏭ ${skipped}`
+document.getElementById("detail").innerText=`✔ ${score/5} | ❌ ${wrong} | ⏭ ${skipped}`
 document.getElementById("time").innerText="⏱ זמן: "+time
 
 let msg=score>=80?"🔥 מצטיין!":score>=50?"👍 יפה!":"💪 נסה שוב"
@@ -308,9 +298,21 @@ history.push({score,time})
 localStorage.setItem("quizHistory",JSON.stringify(history))
 
 let box=document.getElementById("historyBox")
-box.innerHTML=""
-history.forEach((h,i)=>{
-box.innerHTML+=`<div>${i+1}. ${h.score} | ${h.time}</div>`
+box.innerHTML=`
+<div class="row header">
+<div>#</div>
+<div>ציון</div>
+<div>זמן</div>
+</div>
+`
+
+history.forEach((h,index)=>{
+box.innerHTML+=`
+<div class="row">
+<div>${index+1}</div>
+<div>${h.score}</div>
+<div>${h.time}</div>
+</div>`
 })
 }
 
