@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="he">
 <head>
@@ -30,6 +33,83 @@ text-align:center;
 box-shadow:0 0 40px rgba(0,0,0,0.9);
 }
 
+#end {
+    text-align: center;
+    padding: 40px 25px;
+    max-width: 420px;
+    margin: 40px auto;
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    font-family: Arial, sans-serif;
+}
+
+/* ציון */
+#score {
+    font-size: 60px;
+    font-weight: bold;
+    margin: 20px 0;
+    background: linear-gradient(45deg, #00ffcc, #00c6ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(0,255,200,0.3);
+}
+
+/* הודעה */
+#msg {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+/* פירוט */
+#detail {
+    font-size: 16px;
+    margin-bottom: 20px;
+    background: rgba(255,255,255,0.05);
+    padding: 12px;
+    border-radius: 10px;
+}
+
+/* זמן */
+#time {
+    font-size: 18px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+/* כפתורים */
+.small-btn {
+    margin: 10px 5px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.small-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+/* תיבת שם */
+#username {
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    margin: 15px 0;
+    width: 85%;
+    text-align: center;
+    font-size: 16px;
+    outline: none;
+}
+
 .start-btn{
 font-size:32px;
 padding:18px 70px;
@@ -41,13 +121,38 @@ cursor:pointer;
 font-weight:bold;
 }
 
-.small-btn{
-margin:10px;
-padding:8px 18px;
-border:none;
-border-radius:7px;
-background:#00c6ff;
-cursor:pointer;
+/* בסיס לכפתורי סיום */
+.action-btn {
+    margin: 10px 8px;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+/* כפתור שתף */
+.share-btn {
+    background: linear-gradient(45deg, #25D366, #128C7E);
+}
+
+.share-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+}
+
+/* כפתור שחק שוב */
+.replay-btn {
+    background: linear-gradient(45deg, #ff7b00, #ff3d00);
+}
+
+.replay-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
 }
 
 .answer{
@@ -141,9 +246,8 @@ border-radius:10px;
 <div id="time"></div>
 
 <input id="username" placeholder="הכנס שם"><br>
-<button onclick="shareScore()">שתף</button>
-<button onclick="location.reload()">שחק שוב</button>
-
+<button class="action-btn share-btn" onclick="shareScore()">שתף עם חברים</button>
+<button class="action-btn replay-btn" onclick="location.reload()">שחק שוב</button>
 <div id="historyBox" class="history"></div>
 </div>
 
